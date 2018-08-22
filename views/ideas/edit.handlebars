@@ -1,0 +1,23 @@
+<div class="card card-body">
+    <h3>Edit startup idea</h3>
+    <form action="/ideas/{{idea.id}}?_method=PUT" method="post">
+        <!--<input type="hidden" name="_method" value="PUT">-->
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" name="title" value="{{idea.title}}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description">{{idea.description}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="consumers">Consumer Segment</label>
+            <textarea class="form-control" name="consumers">{{idea.consumers}}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="competitors">Competitors</label>
+            <textarea class="form-control" name="competitors">{{idea.competitors}}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
