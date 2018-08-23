@@ -24,7 +24,6 @@ router.get("/", ensureAuthenticated, (req, res) =>{
 router.get("/add", ensureAuthenticated, (req, res) => {
 	res.render("ideas/add");
 });
-// process form
 router.post("/", ensureAuthenticated, (req, res) => {
 	const ideaDetail = {
 		title: req.body.title,
@@ -54,7 +53,6 @@ router.get("/edit/:id", ensureAuthenticated, (req, res) => {
 		}
 	});
 });
-// submit changes
 router.put("/:id", ensureAuthenticated, (req, res) => {
 	Idea.findOne({
 		_id: req.params.id

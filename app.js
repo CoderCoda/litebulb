@@ -9,18 +9,19 @@ const methodOverride = require("method-override");
 const passport = require("passport");
 
 const app = express();
-const ideas = require("./routes/ideas"); // load ideas routes
-const user = require("./routes/user"); // load user routes
-require("./config/passport")(passport); // passport config
+const keys = require("./config/keys"); // load keys for db and google auth
+
+require("./config/passport_local")(passport); // passport_local config
+require("./config/passport_google")(passport); // passport_google config
 
 
 // sets public folder as express static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+// map global promises
+mongoose.Promise = global.Promise;
 // connect to mongoose
-const db = require("./config/database");
-mongoose.connect(db.mongoURI, {useNewUrlParser:true})
+mongoose.connect(keys.mongoURI, {useNewUrlParser:true})
 	.then(() => console.log("MongoDB connected..."))
 	.catch(err => console.log(err));
 // handlebars middleware
@@ -66,8 +67,16 @@ app.get("/about", (req, res) => {
 });
 
 
+const ideas = require("./routes/ideas"); // load ideas routes
+const stories = require("./routes/stories"); // load stories routes
+const user = require("./routes/user"); // load user routes
+const auth = require("./routes/auth"); // load auth routes
 app.use("/ideas", ideas);
+app.use("/stories", stories);
 app.use("/user", user);
+app.use("/auth", auth);
+
+
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
 	console.log(`Server started on port ${port}`);

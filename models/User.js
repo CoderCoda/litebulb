@@ -6,18 +6,15 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    googleID: String,
     email:{
         type: String,
         required: true
     },
-    password:{
-        type: String,
-        required: true
-    },
-    date:{
-        type: Date,
-        default: Date.now
-    }
+    password: String
+    /*
+    image: String
+    */
 });
 
 mongoose.model('user', UserSchema);

@@ -13,7 +13,9 @@ module.exports = function(passport){
             if (!user){
                 return done(null, false, {message: "No registered user with the provided email"});
             }
-
+            if (user.googleID){
+                return done(null, false, {message: "Email registered with Google account. Please sign in with Google"});
+            }
             bcrypt.compare(password, user.password, (err, match) => {
                 if (err) throw err;
                 if (match){

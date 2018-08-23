@@ -14,16 +14,21 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/">Stories</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="/about">About</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
             {{#if user}}
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Startup Ideas</a>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Profile</a>
                     <div class="dropdown-menu">
-                        <a href="/ideas" class="dropdown-item">Ideas</a>
+                        <a href="/ideas" class="dropdown-item">Startup Ideas</a>
+                        <a href="#" class="dropdown-item">Your Stories</a>
                         <a href="/ideas/add" class="dropdown-item">Add Idea</a>
+                        <a href="#" class="dropdown-item">Add Story</a>
                     </div>
                 </li>
                 <li class="nav-item">

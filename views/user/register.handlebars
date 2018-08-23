@@ -9,10 +9,23 @@
 {{/each}}
 
 <div class="row">
-    <div class="col-sm-12 col-md-7">
+    <div class="col-sm-12 col-md-6 mx-auto">
         <div class="card card-body">
-            <h3 class="form-title mb-4">Register</h3>
-            <form class="form-horizontal" action="/user/register" method="post">
+            <div class="text-center pb-1 mb-3">
+                <img src="/assets/lightbulb.png" height="100" width="100">
+            </div>
+            <h3 class="form-title mb-4 text-center">Register</h3>
+            <div class="col-sm-12 pb-2 mb-4">
+                <a href="/auth/google" class="btn btn-block btn-outline-primary google" role="button">
+                    Sign in with <img src="/assets/google.svg" alt="Google" height="20" class="px-1"></a>
+                </a>
+            </div>
+            <div class="mb-4">
+                <h6 class="text-center text-secondary font-weight-normal divider">
+                    <span class="divider">Or, create an account here</span>
+                </h6>
+            </div>
+            <form action="/user/register" method="post">
                 <div class="col-sm-12">
                     <div class="form-group">
                         <label for="name">Name</label>
@@ -31,12 +44,15 @@
                         <input type="password" class="form-control" name="confirm" required>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-10">
-                        <button type="submit" class="btn btn-success">Register</button>
+                <div class="form-group mt-4">
+                    <div class="col-sm-12">
+                        <button type="submit" class="btn btn-success btn-block">Register</button>
                     </div>
                 </div>
             </form>
         </div>
+        <p class="text-center pt-2">
+            Already registered? Log in <a href="/user/login">here</a>.
+        </p>
     </div>
 </div>
