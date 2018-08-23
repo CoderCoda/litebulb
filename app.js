@@ -68,11 +68,9 @@ app.get("/about", (req, res) => {
 
 
 const ideas = require("./routes/ideas"); // load ideas routes
-const stories = require("./routes/stories"); // load stories routes
 const user = require("./routes/user"); // load user routes
 const auth = require("./routes/auth"); // load auth routes
 app.use("/ideas", ideas);
-app.use("/stories", stories);
 app.use("/user", user);
 app.use("/auth", auth);
 
