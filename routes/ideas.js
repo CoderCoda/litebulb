@@ -47,12 +47,33 @@ router.get("/show/:id", (req, res) => {
 
 // public ideas route
 router.get("/public", (req, res) => {
-	Idea.find({status:"public"}).sort({date:"desc"}).populate("user")
-	.then(ideas => {
-		res.render("ideas/public", {
-			ideas: ideas
+	if (req.query.search){
+		const regex = new RegExp(escapeRegex(req.query.search), "gi");
+		Idea.find({$or: [
+			{title:regex},
+			{description:regex},
+			{consumers:regex},
+			{competitors:regex},
+			{userName:regex}
+		]}).populate("user").then(ideas => {
+			if (ideas.length>0) {
+				res.render("ideas/public", {
+					ideas: ideas,
+					specific: ` matching "${req.query.search}"`
+				});
+			} else {
+				req.flash("error_msg", "Search did not return any results");
+				res.redirect("/ideas/public");
+			}
 		});
-	});
+	} else {
+		Idea.find({status:"public"}).sort({date:"desc"}).populate("user")
+		.then(ideas => {
+			res.render("ideas/public", {
+				ideas: ideas
+			});
+		});
+	}
 });
 
 
@@ -63,7 +84,7 @@ router.get("/user/:userId", (req, res) => {
 		User.findOne({_id:req.params.userId}).then(user => {
 			res.render("ideas/public", {
 				ideas: ideas,
-				specific: user.firstName
+				specific: ` from ${user.firstName}`
 			});
 		});
 	});
@@ -76,18 +97,23 @@ router.get("/add", ensureAuthenticated, (req, res) => {
 });
 router.post("/", ensureAuthenticated, (req, res) => {
 	const allowComments = (req.body.allowComments)? true:false;
-	const ideaDetail = {
-		title: req.body.title,
-		description: req.body.description,
-		consumers: req.body.consumers,
-		competitors: req.body.competitors,
-		status: req.body.status,
-		allowComments: allowComments,
-		user: req.user.id
-	};
-	new Idea(ideaDetail).save().then(idea => {
-        req.flash("success_msg", "Idea added");
-		res.redirect("/ideas");
+	
+	User.findOne({_id:req.user.id}).then(user => {
+		const ideaDetail = {
+			title: req.body.title,
+			description: req.body.description,
+			consumers: req.body.consumers,
+			competitors: req.body.competitors,
+			status: req.body.status,
+			allowComments: allowComments,
+			user: req.user.id,
+			userName: user.name
+		};
+		
+		new Idea(ideaDetail).save().then(idea => {
+			req.flash("success_msg", "Idea added");
+			res.redirect("/ideas");
+		});
 	});
 });
 
@@ -150,3 +176,8 @@ router.post("/comment/:id", ensureAuthenticated, (req, res) => {
 		})
 	})
 });
+
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};

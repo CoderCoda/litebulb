@@ -39,7 +39,8 @@ const IdeaSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user',
         required: true
-    }
+    },
+    userName: String
 });
 
 mongoose.model('ideas', IdeaSchema);
