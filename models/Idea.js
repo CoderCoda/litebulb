@@ -14,8 +14,30 @@ const IdeaSchema = new Schema({
     description: String,
     consumers: String,
     competitors: String,
-    user:{
+    status:{
         type: String,
+        required: true,
+        default: "private"
+    },
+    allowComments:{
+        type: Boolean,
+        required: true,
+        default: true
+    },
+    comments: [{
+        commentBody: String,
+        commentDate:{
+            type: Date,
+            default: Date.now
+        },
+        commentUser:{
+            type: Schema.Types.ObjectId,
+            ref: 'user'
+        }
+    }],
+    user:{
+        type: Schema.Types.ObjectId,
+        ref: 'user',
         required: true
     }
 });

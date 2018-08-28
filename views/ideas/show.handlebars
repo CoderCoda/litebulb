@@ -1,0 +1,43 @@
+<div class="row justify-content-center mb-2">
+    <div class="col-sm-12 col-md-4 card card-body h-100 mr-md-2 mb-sm-2" id="userCard">
+        <h3 class="text-info text-center mb-1">{{idea.user.name}}</h3>
+        <p class="font-italic mb-3 text-center">{{formatDate date "MMMM Do YYYY"}}</p>
+        <a class="btn btn-info btn-block" href="/ideas/user/{{idea.user.id}}">More from {{idea.user.firstName}}</a>
+    </div>
+    <div class="col-sm-12 col-md-7 card card-body">
+        <h2>{{idea.title}}</h2>
+        <p>{{idea.description}}</p>
+        <p class="font-weight-bold mb-0">Consumer Segment</p>
+        <p>{{idea.consumers}}</p>
+        <p class="font-weight-bold mb-0">Competitors</p>
+        <p>{{idea.competitors}}</p>
+        {{{editDelete idea.user.id user.id idea.id}}}
+    </div>
+</div>
+{{#if idea.allowComments}}
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-11 card card-body">
+            <h2 class="mb-3">Comments</h2>
+            {{#if user}}
+                <form class="mb-3" method="post" action="/ideas/comment/{{idea.id}}">
+                    <div class="form-group">
+                        <textarea class="form-control" name="comment"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">Comment</button>
+                </form>
+            {{else}}
+                <p><a href="/user/login">Login</a> to post a comment</p>
+            {{/if}}
+            
+            <div class="row">
+                {{#each idea.comments}}
+                    <div class="col-sm-12 card card-body my-1">
+                        <p class="font-weight-bold mb-0">{{commentUser.name}}</p>
+                        <p class="font-italic">{{formatDate commentDate "MMMM Do YYYY"}}</p>
+                        <p class="mb-0">{{commentBody}}</p>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+{{/if}}

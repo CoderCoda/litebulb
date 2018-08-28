@@ -7,6 +7,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const passport = require("passport");
+const {formatDate, select, editDelete} = require("./helpers/hbshelpers")
 
 const app = express();
 const keys = require("./config/keys"); // load keys for db and google auth
@@ -25,7 +26,14 @@ mongoose.connect(keys.mongoURI, {useNewUrlParser:true})
 	.then(() => console.log("MongoDB connected..."))
 	.catch(err => console.log(err));
 // handlebars middleware
-app.engine("handlebars", exphbs({defaultLayout: "main"}));
+app.engine("handlebars", exphbs({
+	helpers: {
+		formatDate: formatDate,
+		select: select,
+		editDelete: editDelete
+	},
+	defaultLayout: "main"
+}));
 app.set("view engine", "handlebars");
 // body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -46,7 +54,7 @@ app.use(flash());
 
 
 // global variables
-app.use(function(req, res, next){
+app.use((req, res, next) => {
     res.locals.success_msg = req.flash("success_msg");
     res.locals.error_msg = req.flash("error_msg");
 	res.locals.error = req.flash("error");

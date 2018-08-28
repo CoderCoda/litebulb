@@ -1,9 +1,10 @@
-<h2 class="mb-4">Your ideas</h2>
+<h2 class="mb-4">Public ideas{{#if specific}} from {{specific}}{{/if}}</h2>
+<!-- implement search bar -->
 {{#if ideas}}
     {{#each ideas}}
     <div class="card card-body mb-2">
-        <h3>{{title}}</h4>
-        <p class="text-uppercase text-info mb-0">{{status}}</p>
+        <h3>{{title}}</h3>
+        <p class="lead mb-0">{{user.name}}</p>
         <p class="font-italic">{{formatDate date "MMMM Do YYYY"}}</p>
         <p>{{description}}</p>
         <p class="mb-0 font-weight-bold">Consumer Segment</p>
@@ -11,13 +12,12 @@
         <p class="mb-0 font-weight-bold">Competitors</p>
         <p>{{competitors}}</p>
         <a class="btn btn-info btn-block" href="/ideas/show/{{id}}">Show</a>
-        <a class="btn btn-secondary btn-block mb-2" href="/ideas/edit/{{id}}">Edit</a>
-        <form method="post" action="/ideas/{{id}}?_method=DELETE">
-            <input type="submit" class="btn btn-danger btn-block" value="Delete">
-        </form>
+        {{#if user}}
+            {{{editDelete user.id ../user.id id}}}
+        {{/if}}
     </div>
     {{/each}}
 
 {{else}}
-    <h4>Your unicorn idea will hit you soon!</h3>
+    <h4>No public ideas yet!</h3>
 {{/if}}

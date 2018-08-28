@@ -21,11 +21,11 @@ module.exports = function(passport){
                     if (user.googleID){ // registered with Google
                         return done(null, user);
                     }
-                    console.log("ya damn skippy")
                     return done(null, false, {message: "The email linked to your Google account has already been registered. Please login using the input fields below"});
                 } else {
                     const newUser = {
                         name: profile.displayName,
+                        firstName: profile.name.givenName,
                         googleID: profile.id,
                         email: profile.emails[0].value
                     };
